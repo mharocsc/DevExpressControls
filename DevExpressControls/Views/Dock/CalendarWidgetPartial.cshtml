@@ -1,0 +1,30 @@
+﻿<script type="text/javascript">
+    function ShowSelectedDates(s, e) {
+        labelDate.SetText(calendar.GetSelectedDate().toDateString());
+    }
+
+    function FormatDate(s, e) {
+
+    }
+</script>
+@Html.DevExpress().Calendar(
+    settings =>
+    {
+        settings.Name = "calendar";
+        settings.Properties.ShowClearButton = false;
+        settings.Properties.ShowHeader = true;
+        settings.Properties.ShowTodayButton = true;
+        settings.Properties.ShowWeekNumbers = false;
+        settings.Properties.HighlightToday = false;
+        settings.ControlStyle.Border.BorderStyle = BorderStyle.None;
+        settings.Width = Unit.Parse("100%");
+
+        settings.Properties.ClientSideEvents.ValueChanged = string.Format("function(s, e) {{ ShowSelectedDates(); }}");
+        settings.Properties.EnableClientSideAPI = true;
+        settings.PreRender = (sender, e) =>
+        {
+            MVCxCalendar calendar = (MVCxCalendar)sender;
+            calendar.SelectedDate = DateTime.Now.Date;
+        };
+    }
+).GetHtml()

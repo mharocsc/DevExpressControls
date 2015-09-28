@@ -1,0 +1,32 @@
+﻿@Html.DevExpress().DockManager(
+        settings =>
+        {
+            settings.Name = "dockManager";
+            settings.FreezeLayout = true;
+        }
+).GetHtml()
+
+@Html.DevExpress().DockZone(
+    settings =>
+    {
+        settings.Name = "LeftZone";
+        settings.ZoneUID = "leftZone";
+        settings.Width = 288;
+        settings.PanelSpacing = 10;
+    }
+).GetHtml()
+
+@Html.DevExpress().DockPanel(
+    settings =>
+    {
+        settings.Name = "childNoOuts";
+        settings.HeaderText = "Child - No Outcomes";
+        settings.OwnerZoneUID = "leftZone";
+        settings.Left = 820;
+        settings.Top = 220;
+        settings.SetContent(() =>
+        {
+            Html.RenderPartial("CalendarWidgetPartial");
+        });
+    }
+).GetHtml()

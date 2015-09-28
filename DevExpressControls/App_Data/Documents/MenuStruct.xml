@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Menu>
+  <Items Text="Productos">
+    <Item Text="Estimator" NavigateUrlControl="Estimator" NavigateUrlAction="Home" />
+    <Item Text="Docks" NavigateUrlControl="Dock" NavigateUrlAction="Widgets"/>
+  </Items>
+  <Items Text="Grid Editing">
+    <Item Text="Default" NavigateUrlControl="TaskInputEditing" NavigateUrlAction="TaskInputDefaultEdit" />
+    <Item Text="Template" NavigateUrlControl="TaskInputEditing" NavigateUrlAction="TaskInputTemplateEditing"/>
+    <Item Text="External" NavigateUrlControl="TaskInputEditing" NavigateUrlAction="TaskInputExternalEditing"/>
+    <Item Text="Popup" NavigateUrlControl="TaskInputEditing" NavigateUrlAction="TaskInputPopupEditing"/>
+    <Item Text="Batch" NavigateUrlControl="TaskInputEditing" NavigateUrlAction="TaskInputBatchEditing"/>
+  </Items>
+
+  <Items Text="Profile">
+    <Item Text="Menu" NavigateUrlControl="Menu" NavigateUrlAction="DevExpressMenu"/>
+    <Item Text="Sign Out" NavigateUrlControl="" NavigateUrlAction=""/>
+  </Items>
+</Menu>

@@ -1,0 +1,29 @@
+﻿@model DevExpressControls.Models.Task
+
+@Html.DevExpress().FormLayout(settings =>
+{
+    settings.Name = "FormLayout";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(65);
+
+    var groupItem = settings.Items.AddGroupItem(groupSettings =>
+    {
+        groupSettings.Caption = "Details";
+        groupSettings.ShowCaption = DefaultBoolean.True;
+        groupSettings.GroupBoxDecoration = GroupBoxDecoration.Default;
+    });
+
+    groupItem.SettingsItems.ShowCaption = DefaultBoolean.True;
+    groupItem.SettingsItemCaptions.Location = LayoutItemCaptionLocation.Left;
+
+    groupItem.SettingsItemHelpTexts.Position = HelpTextPosition.Auto;
+
+    groupItem.Items.Add(m => m.TaskDescription, item =>
+    {
+        item.Caption = "Task Description:";
+    });
+    groupItem.Items.Add(m => m.TaskSOW, item =>
+    {
+        item.Caption = "SOW:";
+        item.HelpText = "Help text for Task SOW";
+    });
+}).GetHtml()

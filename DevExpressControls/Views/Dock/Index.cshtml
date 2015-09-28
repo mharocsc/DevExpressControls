@@ -1,0 +1,22 @@
+﻿@Html.DevExpress().DockPanel(settings =>
+{
+    settings.Name = "panel";
+    settings.OwnerZoneUID = "zone1";
+    settings.HeaderText = "2D Bubble";
+    settings.Height = 220;
+    settings.Width = 250;
+    settings.ShowCloseButton = false;
+    settings.SetContent(() =>
+    {
+        ViewContext.Writer.Write(
+            "<img alt=\"\" style=\"height:140px;\" src=\"" +
+              Url.Content("~/Images/2DBubble.png") + "\"/>"
+        );
+    });
+}).GetHtml()
+@Html.DevExpress().DockZone(settings =>
+{
+    settings.Name = "zone1";
+    settings.Height = 220;
+    settings.Width = 250;
+}).GetHtml()

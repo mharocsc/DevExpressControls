@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "Task Input";
+}
+
+<script type="text/javascript">
+    function gridView_BatchEditStartEditing(s, e) {
+        var tasktNameColumn = s.GetColumnByField("Name");
+        if (!e.rowValues.hasOwnProperty(tasktNameColumn.index))
+            return;
+        var cellInfo = e.rowValues[tasktNameColumn.index];
+        Name.SetValue(cellInfo.value);
+        Name.SetIsValid(true);
+
+        if (e.focusedColumn === tasktNameColumn)
+            Name.SetFocus();
+    }
+    function gridView_BatchEditEndEditing(s, e) {
+        var tasktNameColumn = s.GetColumnByField("Name");
+        if (!e.rowValues.hasOwnProperty(tasktNameColumn.index))
+            return;
+
+        $("form").valid();
+        var cellInfo = e.rowValues[tasktNameColumn.index];
+        cellInfo.value = Name.GetValue();
+        cellInfo.text = encodeHtml(Name.GetText());
+    }
+    function gridView_BatchEditRowValidating(s, e) {
+        var tasktNameColumn = s.GetColumnByField("Name");
+        var cellValidationInfo = e.validationInfo[tasktNameColumn.index];
+        if(!cellValidationInfo)
+            return;
+
+        cellValidationInfo.isValid = Name.GetIsValid();
+        cellValidationInfo.errorText = Name.GetErrorText();
+    }
+
+    var preventEndEditOnLostFocus = false;
+    function Name_KeyDown(s, e) {
+        var keyCode = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+        if(keyCode !== ASPx.Key.Tab) return;
+        var moveActionName = e.htmlEvent.shiftKey ? "MoveFocusBackward" : "MoveFocusForward";
+        if(gridView.batchEditApi[moveActionName]()) {
+            ASPxClientUtils.PreventEventAndBubble(e.htmlEvent);
+            preventEndEditOnLostFocus = true;
+        }
+    }
+    function Name_LostFocus(s, e) {
+        if(!preventEndEditOnLostFocus)
+            gridView.batchEditApi.EndEdit();
+        preventEndEditOnLostFocus = false;
+    }
+
+    function encodeHtml(text) {
+            if(text === undefined || text === null)
+                return "";
+            var replacements = [
+                [ /&amp;/g,  '&ampx;'  ], [ /&/g, '&amp;'  ], [ /&quot;/g, '&quotx;' ], [ /"/g, '&quot;' ],
+                [ /&lt;/g,   '&ltx;'   ], [ /</g, '&lt;'   ], [ /&gt;/g,   '&gtx;'   ], [ />/g, '&gt;'   ]
+            ];
+            for(var i = 0; i < replacements.length; i++) {
+                var repl = replacements[i];
+                text = text.replace(repl[0], repl[1]);
+            }
+            return text;
+        }
+</script>
+@using (Html.BeginForm())
+{
+    @Html.Action("TaskInputBatchEditingPartial")
+}

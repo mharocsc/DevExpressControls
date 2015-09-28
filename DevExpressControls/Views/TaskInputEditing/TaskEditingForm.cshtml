@@ -1,0 +1,101 @@
+﻿@model DevExpressControls.Models.Task
+@{ 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.EnableClientValidation();
+}
+<script type="text/javascript">
+    function CheckDupTasks(s, e) {
+        var myTask = document.getElementsByName("Name")[0];
+        //Here is where the GetTaskList() needs to be implemented. ViewBag maybe, dunno!
+        var a = ["Task001", "Task002", "Task003", "Task004", "Task005"];
+        var dup = false;
+        for (i=0; i<a.length; ++i)
+        {
+            if (myTask.value === a[i])
+            {
+                alert('Duplicated Task. Try again');
+                myTask.focus();
+                myTask.style.borderColor = "red";
+                dup = true;
+                break;
+            }
+        }
+        if (!dup) myTask.style.borderColor = "white";
+    }
+</script>
+@using (Html.BeginForm("ExternalEditFormEdit", "TaskInputEditing", FormMethod.Post, new { @class = "edit_form", @id = "taskform" }))
+{
+    @Html.Hidden("TaskID")
+    <div class="line">
+    @Html.DevExpress().FormLayout(formLayoutSettings =>
+{
+    formLayoutSettings.Name = "FormLayoutTaskInput";
+    formLayoutSettings.Width = Unit.Percentage(50);
+    formLayoutSettings.ColCount = 2;
+    formLayoutSettings.Items.Add(i =>
+    {
+        i.FieldName = "Name";
+        i.Caption = "Task ID";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+            s.Width = Unit.Percentage(50);
+            s.Properties.ClientSideEvents.Validation = "CheckDupTasks";
+        });
+    });
+    formLayoutSettings.Items.Add().FieldName = "Description";
+    formLayoutSettings.Items.Add(i =>
+    {
+        i.FieldName = "StartDate";
+        i.Caption = "Start Date";
+    });
+    formLayoutSettings.Items.Add(i =>
+    {
+        i.FieldName = "EndDate";
+        i.Caption = "End Date";
+    });
+    foreach (var item in ViewBag.SummaryFields)
+    {
+        formLayoutSettings.Items.Add(i =>
+        {
+            i.FieldName = "Summary" + item.FieldLabel;
+            i.Caption = item.FieldLabel;
+        });
+    }
+    formLayoutSettings.Items.AddEmptyItem();
+    formLayoutSettings.Items.Add(i =>
+    {
+        i.ShowCaption = DefaultBoolean.False;
+    }).SetNestedContent(() =>
+    {
+        ViewContext.Writer.Write("<div style='float:right'>");
+        Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "label";
+            }
+        ).GetHtml();
+        Html.DevExpress().Button(
+           settings =>
+           {
+               settings.Name = "btnUpdate";
+               settings.ControlStyle.CssClass = "button";
+               settings.Text = "Update";
+               settings.UseSubmitBehavior = true;
+           }
+       ).GetHtml();
+        Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TaskInputEditing", Action = "TaskInputExternalEditing" }) + "'; }";
+            }
+        ).GetHtml();
+        ViewContext.Writer.Write("</div>");
+    });
+}).GetHtml()
+    </div>
+}

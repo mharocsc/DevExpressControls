@@ -1,0 +1,26 @@
+﻿@{
+Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.DevExpress().NavBar(settings =>
+    {
+        settings.Name = "mDataBinding";
+        settings.AllowSelectItem = true;
+        settings.EncodeHtml = false;
+        settings.Width = 260;
+
+        //settings.ItemDataFields.TextField = "Text";
+        //settings.ItemDataFields.NavigateUrlField = "/Home/Index";
+
+        settings.ItemDataBound = (sender, e) =>
+        {
+            var node = (((IHierarchyData)e.Item.DataItem).Item) as System.Xml.XmlElement;
+            if (node != null)
+            {
+                if (node.Attributes["Text"].Value == "Estimator")
+                {
+                    e.Item.Text = "<b>" + node.Attributes["Text"].Value + "</b> ";
+                }
+                e.Item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = node.Attributes["NavigateUrlControl"].Value, Action = node.Attributes["NavigateUrlAction"].Value });
+            }
+        };
+    }).BindToXML(HttpContext.Current.Server.MapPath("~/App_Data/Documents/MenuStruct.xml"), (string)ViewData["XPath"]).GetHtml()

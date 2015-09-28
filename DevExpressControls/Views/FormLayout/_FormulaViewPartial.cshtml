@@ -1,0 +1,38 @@
+﻿@using DevExpressControls.Helpers;
+
+@Html.DevExpress().FormLayout(settings =>
+{
+    settings.Name = "formula";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(65);
+
+    var groupItem = settings.Items.AddGroupItem(groupSettings =>
+    {
+        groupSettings.Caption = "Formula";
+        groupSettings.ShowCaption = DefaultBoolean.True;
+        groupSettings.GroupBoxDecoration = GroupBoxDecoration.Default;
+    });
+
+    groupItem.Items.Add(item =>
+    {
+        item.ShowCaption = DefaultBoolean.False;
+        item.SetNestedContent(() =>
+        {
+            Html.DevExpress().Spreadsheet(spreadsettings =>
+            {
+                spreadsettings.Name = "spreadsheet";
+                spreadsettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                spreadsettings.Height = 400;
+                spreadsettings.ActiveTabIndex = 0;
+                spreadsettings.ShowConfirmOnLosingChanges = false;
+
+                spreadsettings.PreRender = (s, e) =>
+                {
+                    MVCxSpreadsheet spreadsheet = (MVCxSpreadsheet)s;
+                    SpreadsheetUtils.HideFileTab(spreadsheet);
+                    SpreadsheetFormulaHelper.PrepareSpreadsheet(spreadsheet);
+                };
+            }).GetHtml();
+        });
+    });
+}).GetHtml()
+

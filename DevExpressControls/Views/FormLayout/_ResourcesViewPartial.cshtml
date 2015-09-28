@@ -1,0 +1,87 @@
+@Html.DevExpress().FormLayout(settings =>
+{
+    settings.Name = "resources";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(65);
+
+    var groupItem = settings.Items.AddGroupItem(groupSettings =>
+    {
+        groupSettings.Caption = "Resources";
+        groupSettings.ShowCaption = DefaultBoolean.True;
+        groupSettings.GroupBoxDecoration = GroupBoxDecoration.Default;
+    });
+
+    groupItem.Items.Add(item =>
+    {
+        item.ShowCaption = DefaultBoolean.False;
+        item.SetNestedContent(() =>
+        {
+            @Html.DevExpress().GridView(gridsettings =>
+            {
+                gridsettings.Name = "GridView";
+                gridsettings.KeyFieldName = "TaskResID";
+                gridsettings.CallbackRouteValues = new { Controller = "Home", Action = "ResourcesViewPartial" };
+                gridsettings.ClientSideEvents.RowDblClick = "function(sender, e) { sender.StartEditRow(e.visibleIndex); }";
+                gridsettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                gridsettings.Styles.Header.HorizontalAlign = HorizontalAlign.Center;
+
+                gridsettings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Home", Action = "ResourcesViewPartialAddNew" };
+                gridsettings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Home", Action = "ResourcesViewPartialUpdate" };
+                gridsettings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Home", Action = "ResourcesViewPartialDelete" };
+                gridsettings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+                gridsettings.SettingsBehavior.ConfirmDelete = true;
+                gridsettings.CommandColumn.Visible = true;
+                gridsettings.CommandColumn.ShowNewButton = true;
+                gridsettings.CommandColumn.ShowDeleteButton = true;
+                gridsettings.CommandColumn.ShowEditButton = true;
+
+                gridsettings.Settings.ShowGroupPanel = false;
+                gridsettings.Settings.ShowFilterRow = true;
+                gridsettings.Settings.GridLines = System.Web.UI.WebControls.GridLines.Vertical;
+
+                gridsettings.SettingsBehavior.AllowDragDrop = false;
+                gridsettings.SettingsBehavior.AllowSelectByRowClick = true;
+
+                gridsettings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.ShowOnStatusBar;
+
+                gridsettings.SettingsPager.Visible = false;
+                gridsettings.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+
+                gridsettings.Columns.Add(column =>
+                {
+                    column.FieldName = "Resource";
+                    column.Caption = "Resource";
+                    column.Width = 120;
+                    column.ColumnType = MVCxGridViewColumnType.TextBox;
+                    column.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+                    column.ReadOnly = true;
+                });
+                gridsettings.Columns.Add(column =>
+                {
+                    column.FieldName = "CalculationSource";
+                    column.Caption = "Calculation Source";
+                    column.Width = 120;
+                    column.ColumnType = MVCxGridViewColumnType.TextBox;
+                });
+                gridsettings.Columns.Add(column =>
+                {
+                    column.FieldName = "Quantity";
+                    column.Caption = "Quantity";
+                    column.Width = 120;
+                    column.ColumnType = MVCxGridViewColumnType.TextBox;
+                    column.PropertiesEdit.DisplayFormatString = "0.00";
+                });
+                gridsettings.Columns.Add(column =>
+                {
+                    column.FieldName = "UnitCost";
+                    column.Caption = "Unit/Cost";
+                    column.Width = 120;
+                    column.ColumnType = MVCxGridViewColumnType.TextBox;
+                    column.PropertiesEdit.DisplayFormatString = "0.00";
+                });
+                gridsettings.Columns.Add("CalculationStartDate");
+                gridsettings.Columns.Add("CalculationEndDate");
+                gridsettings.Columns.Add("TotalCost");
+            }).Bind(Model).GetHtml();
+        });
+    });
+}).GetHtml()

@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    <h3>Task Name: Task 001</h3>
+    @Html.Action("DetailsViewPartial")
+    @Html.Action("ResourcesViewPartial")
+    @using (Html.BeginForm())
+    {
+        @Html.Action("FormulaViewPartial")
+    }
+</div>

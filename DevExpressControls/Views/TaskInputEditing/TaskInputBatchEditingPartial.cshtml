@@ -1,0 +1,84 @@
+﻿@model IEnumerable<DevExpressControls.Models.Task>
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "TaskInputGrid";
+    settings.KeyFieldName = "TaskID";
+    settings.Width = Unit.Percentage(80);
+    settings.CallbackRouteValues = new { Controller = "TaskInputEditing", Action = "TaskInputBatchEditingPartial" };
+    settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "TaskInputEditing", Action = "BatchEditingUpdateModel" };
+
+    settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+    settings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Cell;
+    settings.SettingsEditing.BatchEditSettings.StartEditAction = GridViewBatchStartEditAction.DblClick;
+    settings.Styles.BatchEditModifiedCell.BackColor = System.Drawing.Color.Orange;
+    
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.CommandColumn.ShowNewButtonInHeader = true;
+
+    settings.Styles.Header.HorizontalAlign = HorizontalAlign.Center; 
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.GridLines = System.Web.UI.WebControls.GridLines.Vertical;
+    settings.SettingsPager.Position = PagerPosition.Bottom;
+    settings.SettingsPager.FirstPageButton.Visible = true;
+    settings.SettingsPager.LastPageButton.Visible = true;
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+    settings.Columns.Add(column => {
+        column.FieldName = "Name";
+        column.Caption = "Task ID";
+        column.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+        column.SetEditItemTemplateContent(c => {
+            Html.DevExpress().TextBoxFor(m => m.First().Name, edtSettings => {
+                edtSettings.Width = Unit.Percentage(100);
+                edtSettings.ShowModelErrors = true;
+                edtSettings.Properties.ValidationSettings.Display = Display.None;
+                edtSettings.Properties.ClientSideEvents.KeyDown = "Name_KeyDown";
+                edtSettings.Properties.ClientSideEvents.LostFocus = "Name_LostFocus";
+                edtSettings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            }).Render();
+        });
+    });
+    settings.Columns.Add(column => {
+        column.FieldName = "Description";
+        column.Caption = "Description";
+        column.Width = 300;
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+    settings.Columns.Add(column => {
+        column.FieldName = "StartDate";
+        column.Caption = "Start Date";
+        column.Width = 100;
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "d/MM/yyyy";
+    });
+    settings.Columns.Add(column => {
+        column.FieldName = "EndDate";
+        column.Caption = "End Date";
+        column.Width = 100;
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "d/MM/yyyy";
+    });
+    foreach (var item in ViewBag.SummaryFields)
+    {
+        settings.Columns.Add(column => {
+            column.FieldName = "Summary" + item.FieldLabel;
+            column.Caption = item.FieldLabel;
+            column.Width = 100;
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+        });
+    }
+
+    settings.ClientSideEvents.BatchEditStartEditing = "gridView_BatchEditStartEditing";
+    settings.ClientSideEvents.BatchEditEndEditing = "gridView_BatchEditEndEditing";
+    settings.ClientSideEvents.BatchEditRowValidating = "gridView_BatchEditRowValidating";
+    settings.CellEditorInitialize = (s, e) =>
+    {
+        ASPxEdit editor = (ASPxEdit)e.Editor;
+        editor.ValidationSettings.Display = Display.None;
+    };
+}).Bind(Model).GetHtml()

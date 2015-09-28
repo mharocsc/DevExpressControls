@@ -1,0 +1,17 @@
+﻿@using DevExpressControls.Helpers
+@{ List<string> mailFolders = WidgetsHelper.GetMailFolders(); }
+<ul class="mailFolders">
+    @foreach (string mailFolder in mailFolders)
+    {
+        <li>
+            @Html.DevExpress().HyperLink(
+                settings =>
+                {
+                    settings.Properties.Text = mailFolder;
+                    settings.ControlStyle.Font.Bold = mailFolders.IndexOf(mailFolder) == 0;
+                    settings.NavigateUrl = "javascript:void(0)";
+                }
+            ).GetHtml()
+        </li>
+    }
+</ul>

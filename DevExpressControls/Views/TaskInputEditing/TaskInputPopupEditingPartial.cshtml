@@ -1,0 +1,77 @@
+﻿
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "TaskInputGrid";
+    settings.KeyFieldName = "TaskID";
+    settings.CallbackRouteValues = new { Controller = "TaskInputEditing", Action = "TaskInputPopupEditingPartial" };
+
+    settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "TaskInputEditing", Action = "TaskInputPopupEditingAddNew" };
+    settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "TaskInputEditing", Action = "TaskInputPopupEditingUpdate" };
+    settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "TaskInputEditing", Action = "TaskInputPopupEditingDelete" };
+    settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowNewButtonInHeader = true;
+    settings.SettingsCommandButton.NewButton.Image.IconID = IconID.ActionsAdditem16x16;
+    settings.SettingsCommandButton.NewButton.ButtonType = GridCommandButtonRenderMode.Image;
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.CommandColumn.ShowEditButton = true;
+    settings.SettingsPopup.EditForm.Width = 600;
+
+    settings.Styles.Header.HorizontalAlign = HorizontalAlign.Center;
+    settings.Width = Unit.Percentage(80);
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.GridLines = System.Web.UI.WebControls.GridLines.Vertical;
+
+    settings.SettingsBehavior.AllowSelectByRowClick = true;
+    settings.SettingsBehavior.ConfirmDelete = true;
+
+    settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.ShowOnStatusBar;
+
+    settings.SettingsPager.Position = PagerPosition.Bottom;
+    settings.SettingsPager.FirstPageButton.Visible = true;
+    settings.SettingsPager.LastPageButton.Visible = true;
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Name";
+        column.Caption = "Task ID";
+        column.Width = 100;
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Description";
+        column.Caption = "Description";
+        column.Width = 300;
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "StartDate";
+        column.Caption = "Start Date";
+        column.Width = 100;
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "d/MM/yyyy";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "EndDate";
+        column.Caption = "End Date";
+        column.Width = 100;
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "d/MM/yyyy";
+    });
+    foreach (var item in ViewBag.SummaryFields)
+    {
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Summary" + item.FieldLabel;
+            column.Caption = item.FieldLabel;
+            column.Width = 100;
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+        });
+    }
+}).Bind(Model).GetHtml()

@@ -1,0 +1,17 @@
+﻿@using DevExpressControls.Helpers;
+
+@Html.DevExpress().Spreadsheet(spreadsettings =>
+    {
+        spreadsettings.Name = "spreadsheet";
+        spreadsettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        spreadsettings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+        spreadsettings.ActiveTabIndex = 0;
+        spreadsettings.ShowConfirmOnLosingChanges = false;
+
+        spreadsettings.PreRender = (s, e) =>
+        {
+            MVCxSpreadsheet spreadsheet = (MVCxSpreadsheet)s;
+            SpreadsheetUtils.HideFileTab(spreadsheet);
+            SpreadsheetFormulaHelper.PrepareSpreadsheet(spreadsheet);
+        };
+}).GetHtml()
