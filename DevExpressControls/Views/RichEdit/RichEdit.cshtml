@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Rich Text Edit";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.Partial("RichEditPartial")
+}
+@Html.Action("VarListBoxPartial")
+<div style="position: absolute; bottom: 15%;">
+    @Html.DevExpress().Button(settings =>
+        {
+            settings.Name = "btAdd";
+            settings.Text = "Add Field";
+            settings.ClientSideEvents.Click = "OnAddClick";
+        }).GetHtml()
+</div>

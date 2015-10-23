@@ -1,0 +1,14 @@
+﻿@Html.DevExpress().ListBox(
+    settings =>
+    {
+        settings.Name = "lbOptions";
+        settings.Properties.Caption = "Options:";
+        settings.Properties.CaptionSettings.Position = EditorCaptionPosition.Top;
+        settings.Properties.EnableClientSideAPI = true;
+        settings.Properties.SelectionMode = ListEditSelectionMode.Single;
+        settings.Properties.Items.Add("HOURS").Selected = true;
+        settings.Properties.Items.Add("COST");
+        settings.Properties.Items.Add("HOURSTEXT");
+        settings.Properties.ClientSideEvents.SelectedIndexChanged = "EnableAddButton";
+    }
+).GetHtml()

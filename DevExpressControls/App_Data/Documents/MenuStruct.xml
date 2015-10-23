@@ -3,6 +3,7 @@
   <Items Text="Productos">
     <Item Text="Estimator" NavigateUrlControl="Estimator" NavigateUrlAction="Home" />
     <Item Text="Docks" NavigateUrlControl="Dock" NavigateUrlAction="Widgets"/>
+    <Item Text="Rich Text Edit" NavigateUrlControl="RichEdit" NavigateUrlAction="RichEdit" />
   </Items>
   <Items Text="Grid Editing">
     <Item Text="Default" NavigateUrlControl="TaskInputEditing" NavigateUrlAction="TaskInputDefaultEdit" />
@@ -11,7 +12,6 @@
     <Item Text="Popup" NavigateUrlControl="TaskInputEditing" NavigateUrlAction="TaskInputPopupEditing"/>
     <Item Text="Batch" NavigateUrlControl="TaskInputEditing" NavigateUrlAction="TaskInputBatchEditing"/>
   </Items>
-
   <Items Text="Profile">
     <Item Text="Menu" NavigateUrlControl="Menu" NavigateUrlAction="DevExpressMenu"/>
     <Item Text="Sign Out" NavigateUrlControl="" NavigateUrlAction=""/>

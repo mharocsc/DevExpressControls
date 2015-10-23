@@ -1,0 +1,45 @@
+﻿@using DevExpressControls.Helpers
+@Html.DevExpress().RichEdit(settings =>
+{
+    settings.Name = "RichEdit";
+    settings.CallbackRouteValues = new { Controller = "RichEdit", Action = "RichEditPartial" };
+    settings.WorkDirectory = DirectoryManagmentUtils.DocumentBrowsingFolderPath;
+
+    settings.ShowConfirmOnLosingChanges = false;
+    settings.ActiveTabIndex = 3;
+
+    settings.PreRender = (s, e) =>
+    {
+        MVCxRichEdit richEdit = (MVCxRichEdit)s;
+
+        // To hide the File Tab of the Ribbon
+        richEdit.CreateDefaultRibbonTabs(true);
+        RibbonTab fileTab = richEdit.RibbonTabs[0];
+        richEdit.RibbonTabs.Remove(fileTab);
+
+        richEdit.Focus();
+    };
+
+    settings.CalculateDocumentVariable = (s, e) =>
+    {
+        switch (e.VariableName)
+        {
+            case "HOURS":
+                e.Value = DocVariableDemoHelper.GetHours(e.Arguments[0].Value);
+                e.Handled = true;
+                break;
+            case "COST":
+                double cost = DocVariableDemoHelper.GetCost(e.Arguments[0].Value);
+                e.Value = cost.ToString("C");
+                e.Handled = true;
+                break;
+            case "HOURSTEXT":
+                e.Value = DocVariableDemoHelper.GetResHrsText(e.Arguments[0].Value);
+                e.Handled = true;
+                break;
+            default:
+                break;
+        }
+    };
+}).GetHtml()
+

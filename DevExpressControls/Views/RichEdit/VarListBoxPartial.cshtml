@@ -1,0 +1,41 @@
+﻿@model IEnumerable<DevExpressControls.Models.Resource>
+<script type="text/javascript">
+    function OnAddClick(s, e) {
+        var textVariable = lbOptions.GetSelectedItem().text;
+        var textArgument = lbResources.GetSelectedItem().text;
+        InsertVariable(textVariable, textArgument);
+    }
+
+    function InsertVariable(textVariable, textArgument) {
+        var manager = RichEdit.core.commandManager;
+        manager.getCommand(__aspxRichEdit.RichEditClientCommand.CreateField).execute();
+        manager.getCommand(__aspxRichEdit.RichEditClientCommand.InsertText).execute("DOCVARIABLE " + textVariable + " " + textArgument);
+        //manager.getCommand(__aspxRichEdit.RichEditClientCommand.UpdateAllFields).execute(); //THIS IS THE F9
+    }
+</script>
+<div style="float: left">
+    @Html.DevExpress().ListBox(settings =>
+        {
+            settings.Name = "lbResources";
+            settings.Properties.Caption = "Resources:";
+            settings.Properties.CaptionSettings.Position = EditorCaptionPosition.Top;
+            settings.Properties.SelectionMode = ListEditSelectionMode.Single;
+            settings.Properties.ValueField = "ResourceID";
+            settings.Properties.ValueType = typeof(string);
+            settings.Properties.TextField = "ResourceName";
+        }
+    ).BindList(Model).GetHtml()
+</div>
+<div style="float: left; padding-left: 2%">
+    @Html.DevExpress().ListBox(settings =>
+        {
+            settings.Name = "lbOptions";
+            settings.Properties.Caption = "Options:";
+            settings.Properties.CaptionSettings.Position = EditorCaptionPosition.Top;
+            settings.Properties.SelectionMode = ListEditSelectionMode.Single;
+            settings.Properties.Items.Add("HOURS").Selected = true;
+            settings.Properties.Items.Add("COST");
+            settings.Properties.Items.Add("HOURSTEXT");
+        }
+    ).GetHtml()
+</div>

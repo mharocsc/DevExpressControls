@@ -150,6 +150,7 @@
     <Compile Include="Controllers\DockController.cs" />
     <Compile Include="Controllers\EstimatorController.cs" />
     <Compile Include="Controllers\FormLayoutController.cs" />
+    <Compile Include="Controllers\RichEditController.cs" />
     <Compile Include="Controllers\TaskInput\TaskInputBatchEditingController.cs" />
     <Compile Include="Controllers\TaskInput\TaskInputDefaultEditingController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -159,9 +160,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DirectoryManagmentUtils.cs" />
+    <Compile Include="Helpers\DocVariableHelper.cs" />
     <Compile Include="Helpers\GridViewEditingHelper.cs" />
     <Compile Include="Helpers\SpreadsheetFormulaHelper.cs" />
     <Compile Include="Helpers\SpreadsheetUtils.cs" />
+    <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Helpers\WidgetsHelper.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\Ship.cs" />
@@ -204,6 +208,10 @@
     <Content Include="Views\TaskInputEditing\TaskInputBatchEditingPartial.cshtml" />
     <Content Include="Views\TaskInputEditing\TaskInputPopupEditing.cshtml" />
     <Content Include="Views\TaskInputEditing\TaskInputPopupEditingPartial.cshtml" />
+    <Content Include="Views\RichEdit\RichEdit.cshtml" />
+    <Content Include="Views\RichEdit\RichEditPartial.cshtml" />
+    <Content Include="Views\RichEdit\VarListBoxPartial.cshtml" />
+    <Content Include="Views\RichEdit\VarDetailsPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
