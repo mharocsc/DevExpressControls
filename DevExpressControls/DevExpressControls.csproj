@@ -173,6 +173,7 @@
     <Compile Include="Models\SummaryField.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\TaskResources.cs" />
+    <Compile Include="Models\Variable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace DevExpressControls.Controllers
 {
@@ -24,6 +20,12 @@ namespace DevExpressControls.Controllers
         {
             var model = Resource.ResourcesProvider.GetResources();
             return PartialView("VarListBoxPartial", model);
+        }
+
+        public ActionResult VarDetailsPartial(string resource)
+        {
+            var model = Variable.VariableProvider.GetOptions(resource);
+            return PartialView("VarDetailsPartial", model);
         }
     }
 }

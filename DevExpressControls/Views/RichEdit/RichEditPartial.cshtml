@@ -6,7 +6,7 @@
     settings.WorkDirectory = DirectoryManagmentUtils.DocumentBrowsingFolderPath;
 
     settings.ShowConfirmOnLosingChanges = false;
-    settings.ActiveTabIndex = 3;
+    settings.ActiveTabIndex = 0;
 
     settings.PreRender = (s, e) =>
     {
@@ -15,7 +15,7 @@
         // To hide the File Tab of the Ribbon
         richEdit.CreateDefaultRibbonTabs(true);
         RibbonTab fileTab = richEdit.RibbonTabs[0];
-        richEdit.RibbonTabs.Remove(fileTab);
+        //richEdit.RibbonTabs.Remove(fileTab);
 
         richEdit.Focus();
     };
@@ -35,6 +35,10 @@
                 break;
             case "HOURSTEXT":
                 e.Value = DocVariableDemoHelper.GetResHrsText(e.Arguments[0].Value);
+                e.Handled = true;
+                break;
+            case "COSTTEXT":
+                e.Value = DocVariableDemoHelper.GetResCostText(e.Arguments[0].Value);
                 e.Handled = true;
                 break;
             default:

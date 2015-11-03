@@ -31,8 +31,16 @@ namespace DevExpressControls.Helpers
             var days = 5;
             string dayss = days == 1 ? " day" : " days";
             string hourss = hours == 1 ? " hour" : " hours";
-            var costs = hours * days * GetCost(resourceName);
-            return resourceName + " will work " + days + dayss + ", " + hours + hourss +"." + " Cost of production: " + costs.ToString("C");
+            return resourceName + " will work " + days + dayss + ", " + hours + hourss + ".";
+        }
+
+        public static string GetResCostText(string resourceName)
+        {
+            //Do the necessary search to get the information that you need according to resourceName DB, XML, etc.
+            var cost = GetCost(resourceName);
+            var days = 5;
+            string dayss = days == 1 ? " day" : " days";
+            return resourceName + " have a cost of production of " + (days * cost) + ", per " + days + "" +  dayss + ".";
         }
 
     }
